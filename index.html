@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>语法分析器</title>
+  <link rel="stylesheet" href="./css/element.css">
+  <link rel="stylesheet" href="./css/index.css">
+</head>
+
+<body>
+
+  <el-container id="app" v-cloak>
+    <el-main>
+
+      <el-row id="upper-div">
+        <el-col :span="12">
+          <div id="monaco"></div>
+          <div id="button-group">
+            <el-button type="primary" plain id="read-btn">读取</el-button>
+            <el-button type="danger" plain id="empty-btn">清空</el-button>
+            <el-button type="success" plain id="run-btn">分析</el-button>
+          </div>
+        </el-col>
+
+        <el-col :span="12">
+          <div id="tree-div">
+            <el-tree :data="parser_tree" :props="tree_props"></el-tree>
+          </div>
+        </el-col>
+      </el-row>
+
+      <el-row id="down-div">
+        <el-col :span="24">
+          <el-table :data="errors" border height="190px" style="width: 100%">
+            <el-table-column prop="raw" label="错误字串" width="180"></el-table-column>
+            <el-table-column prop="lineNumber" label="行号" width="180"></el-table-column>
+            <el-table-column prop="info" label="错误信息"></el-table-column>
+          </el-table>
+        </el-col>
+      </el-row>
+
+    </el-main>
+  </el-container>
+</body>
+
+<script src="./js/lib/vue.js"></script>
+<script src="./js/lib/element.js"></script>
+<script src="./js/monaco.js"></script>
+<script src="./js/renderer.js"></script>
+
+</html>
