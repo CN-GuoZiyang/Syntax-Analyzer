@@ -1,11 +1,11 @@
 const { app, BrowserWindow } = require('electron')
-
 const electron = require('electron')
+const ipcMain = require('electron').ipcMain
 const Menu = electron.Menu
+
 Menu.setApplicationMenu(null)
 
 let mainWindow
-
 function createWindow() {
   mainWindow = new BrowserWindow({
     width: 1300,
@@ -33,4 +33,13 @@ app.on('window-all-closed', function () {
 
 app.on('activate', function () {
   if (BrowserWindow.getAllWindows().length === 0) createWindow()
+})
+
+const dialog = electron.dialog
+ipcMain.on('select-file-dialog', (event) => {
+  dialog.showOpenDialog({
+    properties: ['openFile']
+  }).then((obj) => {
+    event.sender.send('select-file', obj.filePaths[0])
+  })
 })

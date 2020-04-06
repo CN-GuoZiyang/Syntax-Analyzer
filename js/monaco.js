@@ -36,7 +36,7 @@ var editor
       minimap: {
         enabled: false
       },
-      theme: 'vs-dark',
+      theme: 'vs-light',
       fontSize: 16,
       lineNumbersMinChars: 3,
       lineHeight: 25,

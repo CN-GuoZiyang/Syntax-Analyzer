@@ -16,10 +16,10 @@
 
       <el-row id="upper-div">
         <el-col :span="12">
-          <div id="monaco"></div>
+          <div id="monaco" ></div>
           <div id="button-group">
-            <el-button type="primary" plain id="read-btn">读取</el-button>
-            <el-button type="danger" plain id="empty-btn">清空</el-button>
+            <el-button type="primary" plain id="read-btn" @click="load_from_file">读取</el-button>
+            <el-button type="danger" plain id="empty-btn" @click="clear_editor">清空</el-button>
             <el-button type="success" plain id="run-btn">分析</el-button>
           </div>
         </el-col>
