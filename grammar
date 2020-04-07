@@ -40,9 +40,10 @@ iteration_stmt -> while ( logical_expression ) block
 iteration_stmt -> for ( isnull_expr ; isnull_expr ; isnull_expr ) block
 iteration_stmt -> do block while ( logical_expression ) ;
 if_stmt -> if ( logical_expression ) block result
-result -> else block
-result -> else if_stmt
+result -> else after_else
 result -> ε
+after_else -> block
+after_else -> if_stmt
 switch_stmt -> switch ( id ) { case_stmt case_stmts default_stmt }
 case_stmts -> case_stmt case_stmts
 case_stmts -> ε
@@ -78,10 +79,11 @@ item' -> / factor item'
 item' -> % factor item'
 item' -> ε
 factor -> ( value )
-factor -> id
-factor -> id [ const ]
-factor -> id call_func
+factor -> id factor'
 factor -> const
+factor' -> [ const ]
+factor' -> call_func
+factor' -> ε
 call_func -> ( es )
 es -> expression eps
 eps -> , expression eps
