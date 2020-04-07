@@ -3,18 +3,21 @@ const utils = require('./utils.js')
 
 let first = []
 let follow = []
+let select = []
 
 function init() {
-  let grammar_str = fs.readFileSync(utils.resolveStatic('../testgrammar'), 'utf-8').replace('\r', '')
+  let grammar_str = fs.readFileSync(utils.resolveStatic('../grammar'), 'utf-8').replace('\r', '')
   let raw = split_grammar_str(grammar_str)
   compute_first(raw)
   compute_follow(raw)
+  compute_select()
 }
 
 function split_grammar_str(str) {
   let strs = str.split('\n')
   let res = []
-  strs.forEach(element => {
+  for(let element of strs) {
+    if(element.trim() == '') continue
     let splits = element.split(' -> ')
     if(typeof(res[splits[0]]) == 'undefined') {
       res[splits[0]] = []
@@ -33,7 +36,7 @@ function split_grammar_str(str) {
       .replace('+', 'PLUS').replace('-', 'MINUS')
       .replace('*', 'MULTIPLE').replace('/', 'DIVIDE').replace('%', 'MOD')
     )
-  })
+  }
   return res
 }
 
@@ -79,11 +82,84 @@ function compute_first(raw) {
     }
     if(end) break
   }
+  console.log('first')
   console.log(first)
 }
 
 function compute_follow(raw) {
-  
+  let start = true
+  while(true) {
+    let end = true
+
+    for(let index in raw) {
+      if(index == 'uniq') continue
+      if(typeof(follow[index]) == 'undefined') {
+        follow[index] = []
+      }
+      if(start) {
+        follow[index].push('$')
+        start = false
+      }
+      let current = raw[index]
+      current.forEach(element => {
+        let els = element.split(' ')
+        for(let i = 0; i < els.length - 1; i ++) {
+          // 在raw中，为非终结符
+          if(typeof(raw[els[i]]) != 'undefined') {
+            if(typeof(follow[els[i]]) == 'undefined') {
+              follow[els[i]] = []
+            }
+            // 后一个字符为终结符，直接加入
+            if(typeof(raw[els[i+1]]) == 'undefined') {
+              if(follow[els[i]].indexOf(els[i+1]) == -1) {
+                follow[els[i]].push(els[i+1])
+                end = false
+              }
+            } else {
+              // 后一个字符为非终结符
+              let firstb = first[els[i+1]]
+              for(let f of firstb) {
+                if(f != 'ε' && follow[els[i]].indexOf(f) == -1) {
+                  follow[els[i]].push(f)
+                  end = false
+                }
+              }
+            }
+          }
+        }
+
+        for(let i = els.length-1; i >= 0; i --) {
+          let el = els[i];
+          // 最后面是非终结符
+          if(typeof(raw[el]) != 'undefined') {
+            if(typeof(follow[el]) == 'undefined') {
+              follow[el] = []
+            }
+            for(let f of follow[index]) {
+              if(follow[el].indexOf(f) == -1) {
+                follow[el].push(f)
+                end = false
+              }
+            }
+            if(first[el].indexOf('ε') != -1) {
+              continue
+            } else {
+              break
+            }
+          } else {
+            break
+          }
+        }
+      })
+    }
+    if(end) break
+  }
+  console.log('follow')
+  console.log(follow)
+}
+
+function compute_select() {
+
 }
 
 function parse() {
