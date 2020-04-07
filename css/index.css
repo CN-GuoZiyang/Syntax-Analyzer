@@ -41,16 +41,20 @@ body {
 }
 
 #read-btn {
-  margin-left: 20px;
+  margin-left: 25px;
+}
+
+#show-btn {
+  margin-left: 35px;
 }
 
 #empty-btn {
-  margin-left: 120px;
+  margin-left: 35px;
 }
 
 #run-btn {
   float: right;
-  margin-right: 20px;
+  margin-right: 15px;
 }
 
 #tree-div {

@@ -38,7 +38,7 @@ var editor
       },
       theme: 'vs-light',
       fontSize: 16,
-      lineNumbersMinChars: 3,
+      lineNumbersMinChars: 2,
       lineHeight: 25,
       scrollBeyondLastLine: false,
       language: 'c',

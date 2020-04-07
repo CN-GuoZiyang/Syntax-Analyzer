@@ -57,6 +57,10 @@ const app = new Vue({
       ipc.send('select-file-dialog')
     },
 
+    show_ll1() {
+      console.log('show 个 hammer!')
+    },
+
     clear_editor() {
       editor.setValue('')
       this.errors = []
