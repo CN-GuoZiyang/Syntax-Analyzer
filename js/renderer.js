@@ -6,6 +6,7 @@ const app = new Vue({
   el: "#app",
   data() {
     return {
+      loading: false,
       codes: '',
       errors: [
 
@@ -63,8 +64,11 @@ const app = new Vue({
     },
 
     analyze() {
+      this.loading = true
       let str = editor.getValue()
       console.log(lexer.analyze(str))
+
+      this.loading = false
     }
   },
 
