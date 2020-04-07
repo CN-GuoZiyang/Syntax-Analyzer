@@ -40,6 +40,6 @@ ipcMain.on('select-file-dialog', (event) => {
   dialog.showOpenDialog({
     properties: ['openFile']
   }).then((obj) => {
-    event.sender.send('select-file', obj.filePaths[0])
+    if(obj.filePaths[0]) event.sender.send('select-file', obj.filePaths[0])
   })
 })

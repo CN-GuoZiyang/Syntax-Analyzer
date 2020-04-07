@@ -1,0 +1,10 @@
+state,letter_,num,empty,end
+a,[b],[],[],false
+b,[],[],[c i],false
+c,[],[],[d f],false
+d,[],[e],[],false
+e,[],[],[h],false
+f,[g],[],[],false
+g,[],[],[h],false
+h,[],[],[c i],false
+i,[],[],[],true

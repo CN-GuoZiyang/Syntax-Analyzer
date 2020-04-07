@@ -1,5 +1,6 @@
 const ipc = require('electron').ipcRenderer
 const fs = require('fs')
+const lexer = require('./js/lexer/lexer.js')
 
 const app = new Vue({
   el: "#app",
@@ -59,14 +60,20 @@ const app = new Vue({
       editor.setValue('')
       this.errors = []
       this.parser_tree = []
+    },
+
+    analyze() {
+      let str = editor.getValue()
+      console.log(lexer.analyze(str))
     }
   },
 
   mounted: function() {
     ipc.on('select-file', (event, path) => {
       fs.readFile(path, 'utf8', (e, data) => {
-        editor.setValue(data)
+        if(!e) editor.setValue(data)
       })
     })
+    lexer.init()
   }
 })

@@ -1,0 +1,6 @@
+state,0,x,hexnum,empty,end
+a,[b],[],[],[],false
+b,[],[c],[],[],false
+c,[],[],[d],[],false
+d,[e],[],[e],[e],false
+e,[],[],[],[d],true
