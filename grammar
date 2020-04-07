@@ -1,5 +1,5 @@
 P -> P'
-P -> func funcs
+P' -> func funcs
 funcs -> func funcs
 funcs -> ε
 func -> type id ( args ) func_body
@@ -10,7 +10,7 @@ type -> float
 type -> double
 type -> void
 type -> unsigned type
-args -> type id args
+args -> type id arg
 args -> ε
 arg -> , type id arg
 arg -> ε
@@ -86,6 +86,6 @@ call_func -> ( es )
 es -> expression eps
 eps -> , expression eps
 eps -> ε
-const -> oct
-const -> dec
-const -> hex
+const -> OCT
+const -> DEC
+const -> HEX

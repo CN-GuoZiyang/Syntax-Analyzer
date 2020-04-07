@@ -4,13 +4,14 @@ const utils = require('./utils.js')
 let first = []
 let follow = []
 let select = []
+let grammar_production = []
 
 function init() {
   let grammar_str = fs.readFileSync(utils.resolveStatic('../grammar'), 'utf-8').replace('\r', '')
   let raw = split_grammar_str(grammar_str)
   compute_first(raw)
   compute_follow(raw)
-  compute_select()
+  compute_select(raw)
 }
 
 function split_grammar_str(str) {
@@ -159,8 +160,34 @@ function compute_follow(raw) {
   console.log(follow)
 }
 
-function compute_select() {
-
+function compute_select(raw) {
+  for(let index in raw) {
+    if(index == 'uniq') continue
+    let b = index
+    let a = raw[b]
+    for(let i of a) {
+      grammar_production.push({
+        'left': b,
+        'right': i
+      })
+    }
+  }
+  console.log(grammar_production)
+  for(let item of grammar_production) {
+    if(item.right == 'ε') {
+      select.push(follow[item.left])
+    } else {
+      let first_ele = item.right.split(' ')[0]
+      if(typeof(raw[first_ele]) == 'undefined') {
+        let t = []
+        t.push(first_ele)
+        select.push(t)
+      } else {
+        select.push(first[first_ele])
+      }
+    }
+  }
+  console.log(select)
 }
 
 function parse() {
