@@ -5,18 +5,48 @@
   "main": "index.js",
   "scripts": {
     "start": "electron .",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build-mac": "electron-builder --mac --x64",
+    "build-win": "electron-builder --win --x64",
+    "build": "npm run build-mac && npm run build-win"
   },
   "repository": {
     "type": "git",
     "url": "ssh://git@git.guoziyang.top:222/compiler-group/parser.git"
   },
   "author": "ziyang",
-  "license": "ISC",
+  "license": "LICENSE",
   "devDependencies": {
-    "electron": "^8.2.0"
+    "electron": "^8.2.0",
+    "electron-builder": "^22.4.1"
   },
   "dependencies": {
     "monaco-editor": "^0.20.0"
+  },
+  "build": {
+    "appId": "top.guoziyang.app",
+    "mac": {
+      "icon": "icons/app.icns",
+      "target": [
+        "dmg"
+      ]
+    },
+    "win": {
+      "icon": "icons/app.ico",
+      "target": [
+        "nsis"
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowElevation": true,
+      "allowToChangeInstallationDirectory": true,
+      "installerIcon": "icons/app.ico",
+      "uninstallerIcon": "icons/app.ico",
+      "installerHeaderIcon": "icons/app.ico",
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "license": "LICENSE"
+    }
   }
 }
