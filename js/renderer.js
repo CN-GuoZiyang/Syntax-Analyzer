@@ -78,6 +78,17 @@ const app = new Vue({
   },
 
   mounted: function() {
+    document.getElementById('monaco').addEventListener('dragover', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+    })
+    document.getElementById('monaco').addEventListener('drop', function(event) {
+      event.preventDefault()
+      event.stopPropagation();
+      for (let f of event.dataTransfer.files) {
+        ipc.send('ondragstart', f.path)
+      }
+    })
     ipc.on('select-file', (event, path) => {
       fs.readFile(path, 'utf8', (e, data) => {
         if(!e) editor.setValue(data)

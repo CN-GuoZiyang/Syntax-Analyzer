@@ -43,3 +43,7 @@ ipcMain.on('select-file-dialog', (event) => {
     if(obj.filePaths[0]) event.sender.send('select-file', obj.filePaths[0])
   })
 })
+
+ipcMain.on('ondragstart', (event, arg) => {
+  event.sender.send('select-file', arg)
+})

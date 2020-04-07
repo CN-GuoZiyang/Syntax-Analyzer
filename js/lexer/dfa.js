@@ -12,7 +12,7 @@ let symbol_table = {
   '6': 'DIVIDE', '7': 'MOD', '8': 'LESS', '9': 'LESS_E', '10': 'GREATER', '11': 'GREATER_E',
   '12': 'ASSIGN', '13': 'EQUAL', '14': 'NOT', '15': 'NOT_E', '16':'ADDRESS', '17': 'AND', '19': 'OR',
   '20': 'L_BRCKET', '21': 'R_BRCKET', '22': 'L_PARENTHESE', '23': 'R_PARENTHESE',
-  '24': 'L_BRACE', '25': 'R_BRACE', '26': 'SEMICOLON'
+  '24': 'L_BRACE', '25': 'R_BRACE', '26': 'SEMICOLON', '27': 'COLON'
 }
 
 function init() {

@@ -23,18 +23,19 @@ function split_grammar_str(str) {
       res[splits[0]] = []
     }
     res[splits[0]].push(splits[1]
-      .replace('&&', 'AND')
-      .replace('||', 'OR')
-      .replace('>=', 'GREATER_E').replace('<=', 'LESS_E').replace('==', 'EQUAL').replace('!=', "NOT_E")
-      .replace('(', 'L_PARENTHESE').replace(')', 'R_PARENTHESE')
-      .replace('[', 'L_BRCKET').replace(']', 'R_BRCKET')
-      .replace('{', 'L_BRACE').replace('}', 'R_BRACE')
-      .replace(',', 'COMMA')
-      .replace(';', 'SEMICOLON')
-      .replace('!', 'NOT')
-      .replace('>', 'GREATER').replace('<', 'LESS').replace('=', 'ASSIGN')
-      .replace('+', 'PLUS').replace('-', 'MINUS')
-      .replace('*', 'MULTIPLE').replace('/', 'DIVIDE').replace('%', 'MOD')
+      .replace(/&&/g, 'AND')
+      .replace(/\|\|/g, 'OR')
+      .replace(/>=/g, 'GREATER_E').replace(/<=/g, 'LESS_E').replace(/==/g, 'EQUAL').replace(/!=/g, "NOT_E")
+      .replace(/\(/g, 'L_PARENTHESE').replace(/\)/g, 'R_PARENTHESE')
+      .replace(/\[/g, 'L_BRCKET').replace(/]/g, 'R_BRCKET')
+      .replace(/{/g, 'L_BRACE').replace(/}/g, 'R_BRACE')
+      .replace(/,/g, 'COMMA')
+      .replace(/;/g, 'SEMICOLON')
+      .replace(/!/g, 'NOT')
+      .replace(/>/g, 'GREATER').replace(/</g, 'LESS').replace(/=/g, 'ASSIGN')
+      .replace(/\+/g, 'PLUS').replace(/-/g, 'MINUS')
+      .replace(/\*/g, 'MULTIPLE').replace(/\//g, 'DIVIDE').replace(/%/g, 'MOD')
+      .replace(/:/g, 'COLON')
     )
   }
   return res
