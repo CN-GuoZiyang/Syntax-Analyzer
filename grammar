@@ -1,7 +1,7 @@
 P -> P'
 P -> func funcs
 funcs -> func funcs
-funcs -> ε
+funcs -> empty
 func -> type id ( args ) func_body
 type -> int
 type -> short
@@ -11,22 +11,22 @@ type -> double
 type -> void
 type -> unsigned type
 args -> type id args
-args -> ε
+args -> empty
 arg -> , type id arg
-arg -> ε
+arg -> empty
 func_body -> ;
 func_body -> block
 block -> { define_stmts stmts }
 define_stmts -> define_stmt define_stmts
-define_stmts -> ε
+define_stmts -> empty
 define_stmt -> type id init vars ;
 init -> = expression
 init -> [ const ]
-init -> ε
+init -> empty
 vars -> , id init vars
-vars -> ε
+vars -> empty
 stmts -> stmt stmts
-stmts -> ε
+stmts -> empty
 stmt -> assign_stmt
 stmt -> jump_stmt
 stmt -> iteration_stmt
@@ -42,25 +42,25 @@ iteration_stmt -> do block while ( logical_expression ) ;
 if_stmt -> if ( logical_expression ) block result
 result -> else block
 result -> else if_stmt
-result -> ε
+result -> empty
 switch_stmt -> switch ( id ) { case_stmt case_stmts default_stmt }
 case_stmts -> case_stmt case_stmts
-case_stmts -> ε
+case_stmts -> empty
 case_stmt -> case const : stmts
 default_stmt -> default : stmts
-default_stmt -> ε
+default_stmt -> empty
 logical_expression -> ! expression bool_expression
 logical_expression -> expression bool_expression
 bool_expression -> lop expression bool_expression
-bool_expression -> ε
+bool_expression -> empty
 lop -> &&
 lop -> ||
 isnull_expr -> expression
-isnull_expr -> ε
+isnull_expr -> empty
 expression -> value operation
 operation -> compare_op value
 operation -> equal_op value
-operation -> ε
+operation -> empty
 compare_op -> >
 compare_op -> >=
 compare_op -> <
@@ -71,12 +71,12 @@ equal_op -> =
 value -> item value'
 value' -> + item value'
 value' -> - item value'
-value' -> ε
+value' -> empty
 item -> factor item'
 item' -> * factor item'
 item' -> / factor item'
 item' -> % factor item'
-item' -> ε
+item' -> empty
 factor -> ( value )
 factor -> id
 factor -> id [ const ]
@@ -85,7 +85,8 @@ factor -> const
 call_func -> ( es )
 es -> expression eps
 eps -> , expression eps
-eps -> ε
+eps -> empty
+empty -> ε
 const -> oct
 const -> dec
 const -> hex

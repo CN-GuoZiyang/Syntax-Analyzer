@@ -1,6 +1,7 @@
 const ipc = require('electron').ipcRenderer
 const fs = require('fs')
 const lexer = require('./js/lexer/lexer.js')
+const parser = require('./js/parser/parser.js')
 
 const app = new Vue({
   el: "#app",
@@ -83,5 +84,6 @@ const app = new Vue({
       })
     })
     lexer.init()
+    parser.init()
   }
 })
