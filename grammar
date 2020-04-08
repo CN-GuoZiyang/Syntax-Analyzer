@@ -61,6 +61,8 @@ isnull_expr -> ε
 expression -> value operation
 operation -> compare_op value
 operation -> equal_op value
+operation -> ++
+operation -> --
 operation -> ε
 compare_op -> >
 compare_op -> >=

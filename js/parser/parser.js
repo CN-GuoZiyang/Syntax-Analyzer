@@ -32,6 +32,7 @@ function split_grammar_str(str) {
       .replace(/&&/g, 'AND')
       .replace(/\|\|/g, 'OR')
       .replace(/>=/g, 'GREATER_E').replace(/<=/g, 'LESS_E').replace(/==/g, 'EQUAL').replace(/!=/g, "NOT_E")
+      .replace(/\+\+/g, 'INCREMENT').replace(/--/g, 'DECREMENT')
       .replace(/\(/g, 'L_PARENTHESE').replace(/\)/g, 'R_PARENTHESE')
       .replace(/\[/g, 'L_BRCKET').replace(/]/g, 'R_BRCKET')
       .replace(/{/g, 'L_BRACE').replace(/}/g, 'R_BRACE')
