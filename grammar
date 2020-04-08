@@ -2,28 +2,28 @@ P -> P'
 P' -> func funcs
 funcs -> func funcs
 funcs -> ε
-func -> type id ( args ) func_body
-type -> int
-type -> short
-type -> long
-type -> float
-type -> double
-type -> void
-type -> unsigned type
-args -> type id arg
+func -> type ID ( args ) func_body
+type -> INT
+type -> SHORT
+type -> LONG
+type -> FLOAT
+type -> DOUBLE
+type -> VOID
+type -> UNSIGNED type
+args -> type ID arg
 args -> ε
-arg -> , type id arg
+arg -> , type ID arg
 arg -> ε
 func_body -> ;
 func_body -> block
 block -> { define_stmts stmts }
 define_stmts -> define_stmt define_stmts
 define_stmts -> ε
-define_stmt -> type id init vars ;
+define_stmt -> type ID init vars ;
 init -> = expression
 init -> [ const ]
 init -> ε
-vars -> , id init vars
+vars -> , ID init vars
 vars -> ε
 stmts -> stmt stmts
 stmts -> ε
@@ -33,22 +33,22 @@ stmt -> iteration_stmt
 stmt -> if_stmt
 stmt -> switch_stmt
 assign_stmt -> expression ;
-jump_stmt -> continue ;
-jump_stmt -> break ;
-jump_stmt -> return isnull_expr ;
-iteration_stmt -> while ( logical_expression ) block
-iteration_stmt -> for ( isnull_expr ; isnull_expr ; isnull_expr ) block
-iteration_stmt -> do block while ( logical_expression ) ;
-if_stmt -> if ( logical_expression ) block result
-result -> else after_else
+jump_stmt -> CONTINUE ;
+jump_stmt -> BREAK ;
+jump_stmt -> RETURN isnull_expr ;
+iteration_stmt -> WHILE ( logical_expression ) block
+iteration_stmt -> FOR ( isnull_expr ; isnull_expr ; isnull_expr ) block
+iteration_stmt -> DO block WHILE ( logical_expression ) ;
+if_stmt -> IF ( logical_expression ) block result
+result -> ELSE after_else
 result -> ε
 after_else -> block
 after_else -> if_stmt
-switch_stmt -> switch ( id ) { case_stmt case_stmts default_stmt }
+switch_stmt -> SWITCH ( ID ) { case_stmt case_stmts default_stmt }
 case_stmts -> case_stmt case_stmts
 case_stmts -> ε
-case_stmt -> case const : stmts
-default_stmt -> default : stmts
+case_stmt -> CASE const : stmts
+default_stmt -> DEFAULT : stmts
 default_stmt -> ε
 logical_expression -> ! expression bool_expression
 logical_expression -> expression bool_expression
@@ -79,7 +79,7 @@ item' -> / factor item'
 item' -> % factor item'
 item' -> ε
 factor -> ( value )
-factor -> id factor'
+factor -> ID factor'
 factor -> const
 factor' -> [ const ]
 factor' -> call_func
@@ -89,5 +89,7 @@ es -> expression eps
 eps -> , expression eps
 eps -> ε
 const -> OCT
-const -> DEC
+const -> DECIMAL
 const -> HEX
+const -> STRING
+const -> CHARACTER

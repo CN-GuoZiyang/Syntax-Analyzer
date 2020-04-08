@@ -1,5 +1,6 @@
 const fs = require('fs')
 const utils = require('./utils.js')
+const ipc = require('electron').ipcRenderer
 
 let first = []
 let follow = []
@@ -14,6 +15,7 @@ function init() {
   compute_follow(raw)
   compute_select(raw)
   construct_table()
+  ipc.send('table', table)
   console.log(table)
 }
 
@@ -67,12 +69,12 @@ function compute_first(raw) {
             break
           }
           // 非终结符情况
-          let el_first = first[el]
-          if (typeof (el_first) == 'undefined') {
-            break
+          if (typeof (first[el]) == 'undefined') {
+            first[el] = []
           }
+          let el_first = first[el]
           for (let f of el_first) {
-            if (first[index].indexOf(f) == -1) {
+            if (first[index].indexOf(f) == -1 && f != 'ε') {
               first[index].push(f)
               end = false
             }
@@ -97,43 +99,53 @@ function compute_follow(raw) {
   while (true) {
     let end = true
 
+    // 循环是检查每个产生式
     for (let index in raw) {
       if (index == 'uniq') continue
       if (typeof (follow[index]) == 'undefined') {
         follow[index] = []
       }
       if (start) {
+        table.start = index
         follow[index].push('$')
         start = false
       }
       let current = raw[index]
       current.forEach(element => {
         let els = element.split(' ')
+
+        // 处理B -> aAb的情况，first(b)-{e} in Follow(A)，注意这里的b可能是多个符号
         for (let i = 0; i < els.length - 1; i++) {
-          // 在raw中，为非终结符
-          if (typeof (raw[els[i]]) != 'undefined') {
+          if(typeof(raw[els[i]]) != 'undefined') {
             if (typeof (follow[els[i]]) == 'undefined') {
               follow[els[i]] = []
             }
-            // 后一个字符为终结符，直接加入
-            if (typeof (raw[els[i + 1]]) == 'undefined') {
-              if (follow[els[i]].indexOf(els[i + 1]) == -1) {
-                follow[els[i]].push(els[i + 1])
-                end = false
-              }
-            } else {
-              // 后一个字符为非终结符
-              let firstb = first[els[i + 1]]
-              for (let f of firstb) {
-                if (f != 'ε' && follow[els[i]].indexOf(f) == -1) {
-                  follow[els[i]].push(f)
+            for(let j = i+1; j < els.length; j ++) {
+              if(typeof(raw[els[j]]) == 'undefined') {
+                if(follow[els[i]].indexOf(els[j]) == -1) {
+                  follow[els[i]].push(els[j])
                   end = false
+                }
+                break
+              } else {
+                let firstb = first[els[j]]
+                for (let f of firstb) {
+                  if (f != 'ε' && follow[els[i]].indexOf(f) == -1) {
+                    follow[els[i]].push(f)
+                    end = false
+                  }
+                }
+                if(firstb.indexOf('ε') == -1) {
+                  break
+                } else {
+                  continue
                 }
               }
             }
           }
         }
 
+        // 处理B->aA或B->aAb且b->e的情况，FOLLOW(B) in FOLLOW(A)，注意这里的b可能是多个符号
         for (let i = els.length - 1; i >= 0; i--) {
           let el = els[i];
           // 最后面是非终结符
@@ -178,17 +190,31 @@ function compute_select(raw) {
     }
   }
   table.grammar_production = grammar_production
-  for (let item of grammar_production) {
+  for (let index in grammar_production) {
+    if(index == 'uniq') continue
+    let item = grammar_production[index]
     if (item.right == 'ε') {
-      select.push(follow[item.left])
+      select[index] = follow[item.left]
     } else {
-      let first_ele = item.right.split(' ')[0]
-      if (typeof (raw[first_ele]) == 'undefined') {
-        let t = []
-        t.push(first_ele)
-        select.push(t)
-      } else {
-        select.push(first[first_ele])
+      let rightsplits = item.right.split(' ')
+      select[index] = []
+      for(let i = 0; i < rightsplits.length; i ++) {
+        let cele = rightsplits[i]
+        if(typeof(raw[cele]) == 'undefined') {
+          select[index].push(cele)
+          break
+        } else {
+          for(let f of first[cele]) {
+            if(f != 'ε' && f != 'uniq'&& select[index].indexOf(f) == -1) {
+              select[index].push(f)
+            }
+          }
+          if(first[cele].indexOf('ε') == -1) {
+            break
+          } else {
+            continue
+          }
+        }
       }
     }
   }
@@ -246,8 +272,65 @@ function construct_table() {
   table.predict_table = predict_table
 }
 
-function parse() {
-
+function parse(token) {
+  let stack = []
+  let start_ele = {
+    label: table.start,
+    children: []
+  }
+  stack.push({
+    label: '$',
+    children: []
+  })
+  stack.push(start_ele)
+  token.push({
+    raw: '$',
+    type: '$'
+  })
+  let current_index = 0
+  let count = 0
+  while(stack.length != 0) {
+    count ++
+    let top = stack[stack.length-1]
+    let s = token[current_index]
+    console.log('\n\n栈：')
+    console.log(stack.slice(0))
+    console.log('当前符号：')
+    console.log(s)
+    if(top.label == 'ε') {
+      stack.pop()
+      continue
+    }
+    if(top.label == s.type) {
+      top.children.unshift({
+        label: s.raw
+      })
+      stack.pop()
+      current_index ++
+    } else {
+      // 使用产生式替换
+      let production = table.predict_table[table.nonterminals[top.label]][table.symbols[s.type]]
+      // if(typeof(production) == 'undefined') {
+      //   stack.pop()
+      //   continue
+      // }
+      let right = production.right.split(' ')
+      console.log('使用产生式：')
+      console.log(production)
+      stack.pop()
+      for(let i = right.length-1; i >= 0; i --) {
+        let one = {
+          label: right[i],
+          children: []
+        }
+        top.children.unshift(one)
+        stack.push(one)
+      }
+    }
+    // if(count == 10) break
+  }
+  console.log(start_ele)
+  return start_ele
 }
 
 exports.init = init

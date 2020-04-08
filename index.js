@@ -47,3 +47,8 @@ ipcMain.on('select-file-dialog', (event) => {
 ipcMain.on('ondragstart', (event, arg) => {
   event.sender.send('select-file', arg)
 })
+
+let table
+ipcMain.on('table', (event, arg) => {
+  table = arg
+})
