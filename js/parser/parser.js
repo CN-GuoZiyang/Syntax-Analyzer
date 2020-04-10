@@ -270,6 +270,15 @@ function construct_table() {
       }
     })
   }
+  for(let left in table.nonterminals) {
+    if(left == 'uniq') continue
+    let follow_left = table.follow[left]
+    for(let ele of follow_left) {
+      if(typeof(predict_table[nonterminals[left]][symbols[ele]]) == 'undefined') {
+        predict_table[nonterminals[left]][symbols[ele]] = 'synch'
+      }
+    }
+  }
   table.predict_table = predict_table
 }
 
@@ -289,9 +298,8 @@ function parse(token) {
     type: '$'
   })
   let current_index = 0
-  let count = 0
-  while(stack.length != 0) {
-    count ++
+  let errors = []
+  while(stack.length != 0 && current_index < token.length) {
     let top = stack[stack.length-1]
     let s = token[current_index]
     console.log('\n\n栈：')
@@ -302,19 +310,49 @@ function parse(token) {
       stack.pop()
       continue
     }
-    if(top.label == s.type) {
-      top.children.unshift({
-        label: s.raw
-      })
-      stack.pop()
-      current_index ++
-    } else {
+    // 栈顶是终结符
+    if(typeof(table.nonterminals[top.label]) == 'undefined') {
+      if(top.label == s.type) {
+        top.label = top.label + ' : ' + s.raw
+        stack.pop()
+        current_index ++
+      } else {
+        // 栈顶终结符与输入符号不一致
+        errors.push({
+          raw: s.raw,
+          lineNumber: s.lineNumber,
+          info: '语法错误：不匹配的非终结符',
+          startc: s.startc-1,
+          endc: s.startc
+        })
+        stack.pop()
+        continue
+      }
+    } else { // 栈顶是非终结符
       // 使用产生式替换
       let production = table.predict_table[table.nonterminals[top.label]][table.symbols[s.type]]
-      // if(typeof(production) == 'undefined') {
-      //   stack.pop()
-      //   continue
-      // }
+      if(typeof(production) == 'undefined') {
+        // 恐慌模式，忽略输入符号
+        errors.push({
+          raw: s.raw,
+          lineNumber: s.lineNumber,
+          info: '语法错误：恐慌模式',
+          startc: s.startc,
+          endc: s.endc
+        })
+        current_index ++
+        continue
+      } else if(production == 'synch') {
+        errors.push({
+          raw: s.raw,
+          lineNumber: s.lineNumber,
+          info: '语法错误：SYNCH词法单元',
+          startc: s.startc-1,
+          endc: s.startc
+        })
+        stack.pop()
+        continue
+      }
       let right = production.right.split(' ')
       console.log('使用产生式：')
       console.log(production)
@@ -328,10 +366,9 @@ function parse(token) {
         stack.push(one)
       }
     }
-    // if(count == 10) break
   }
   console.log(start_ele)
-  return start_ele
+  return {start_ele, errors}
 }
 
 exports.init = init

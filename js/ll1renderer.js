@@ -86,6 +86,8 @@ const app = new Vue({
         for(let j = 1; j < length; j ++) {
           if(typeof(this.table.predict_table[i][j-1]) == 'undefined') {
             obj[this.predict_table_header[j]] = '-'
+          } else if(this.table.predict_table[i][j-1] == 'synch'){
+            obj[this.predict_table_header[j]] = 'synch'
           } else {
             obj[this.predict_table_header[j]] = this.table.grammar_production.indexOf(this.table.predict_table[i][j-1])
           }
