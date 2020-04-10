@@ -52,3 +52,26 @@ let table
 ipcMain.on('table', (event, arg) => {
   table = arg
 })
+let neww
+
+ipcMain.on('show_ll1', (event) => {
+    neww = new BrowserWindow({
+    width: 900,
+    height: 600,
+    frame: false,
+    webPreferences: {
+      nodeIntegration: true
+    }
+  })
+  neww.loadFile('ll1show.html')
+  neww.on('closed', ()=>{neww = null})
+  neww.webContents.openDevTools()
+})
+
+ipcMain.on('close_ll1', (event) => {
+  neww.close()
+})
+
+ipcMain.on('get_table', (event) => {
+  event.sender.send('table', table)
+})

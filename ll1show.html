@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LL(1)文法</title>
+  <link rel="stylesheet" href="./css/element.css">
+  <link rel="stylesheet" href="./css/ll1.css">
+</head>
+<body style="margin: 0;">
+  <div id="app">
+  <div id='close-btn' @click="close_win"></div>
+  <div id='close-logo' @click="close_win">X</div>
+  <el-container v-cloak>
+    <el-main style="padding: 0;">
+      <el-tabs type="border-card">
+        <el-tab-pane label="产生式">
+          <el-table :data="grammar_production" style="width: 100%;" :show-header=false border>
+            <el-table-column prop="left" width="180">
+            </el-table-column>
+            <el-table-column prop="to" width="180">
+            </el-table-column>
+            <el-table-column prop="right">
+            </el-table-column>
+          </el-table>
+        </el-tab-pane>
+        <el-tab-pane label="First集 & Follow集">配置管理</el-tab-pane>
+        <el-tab-pane label="Select集">角色管理</el-tab-pane>
+        <el-tab-pane label="预测分析表">定时任务补偿</el-tab-pane>
+      </el-tabs>
+    </el-main>
+  </el-container>
+</div>
+</body>
+<script src="./js/lib/vue.js"></script>
+<script src="./js/lib/element.js"></script>
+<script src="./js/ll1renderer.js"></script>
+</html>
