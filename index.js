@@ -59,13 +59,14 @@ ipcMain.on('show_ll1', (event) => {
     width: 1080,
     height: 600,
     frame: false,
+    resizable: false,
     webPreferences: {
       nodeIntegration: true
     }
   })
   neww.loadFile('ll1show.html')
   neww.on('closed', ()=>{neww = null})
-  neww.webContents.openDevTools()
+  // neww.webContents.openDevTools()
 })
 
 ipcMain.on('close_ll1', (event) => {
