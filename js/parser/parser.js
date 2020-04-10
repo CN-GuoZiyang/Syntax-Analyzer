@@ -261,8 +261,10 @@ function construct_table() {
         console.log('---- conflect occurs ----')
         console.log('非终结符: ' + left)
         console.log('输入符号: ' + ele)
-        console.log('当前产生式: ' + element)
-        console.log('已存在产生式: ' + predict_table[nonterminals[left]][symbols[ele]])
+        console.log('当前产生式: ')
+        console.log(element)
+        console.log('已存在产生式: ')
+        console.log(predict_table[nonterminals[left]][symbols[ele]])
         console.log('------- conflict --------')
         console.log()
       } else {

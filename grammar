@@ -1,8 +1,10 @@
 P -> P'
-P' -> func funcs
-funcs -> func funcs
-funcs -> ε
-func -> type ID ( args ) func_body
+P' -> common commons
+commons -> common commons
+commons -> ε
+common -> type ID after_part
+after_part -> ( args ) func_body
+after_part -> init vars ;
 type -> INT
 type -> SHORT
 type -> LONG
@@ -32,6 +34,7 @@ stmt -> jump_stmt
 stmt -> iteration_stmt
 stmt -> if_stmt
 stmt -> switch_stmt
+stmt -> void_call_stmt
 assign_stmt -> expression ;
 jump_stmt -> CONTINUE ;
 jump_stmt -> BREAK ;
@@ -88,6 +91,7 @@ factor' -> call_func
 factor' -> ε
 call_func -> ( es )
 es -> expression eps
+es -> ε
 eps -> , expression eps
 eps -> ε
 const -> OCT
