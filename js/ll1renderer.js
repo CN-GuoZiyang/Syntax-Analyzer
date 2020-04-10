@@ -80,13 +80,14 @@ const app = new Vue({
       let res = []
       let length = this.predict_table_header.length
       for(let i in this.table.predict_table) {
+        if(i == 'uniq') continue
         let obj = {}
         obj.非终结符 = this.table.nonterminalsr[i]
         for(let j = 1; j < length; j ++) {
-          if(typeof(this.table.predict_table[i][j]) == 'undefined') {
+          if(typeof(this.table.predict_table[i][j-1]) == 'undefined') {
             obj[this.predict_table_header[j]] = '-'
           } else {
-            obj[this.predict_table_header[j]] = this.table.grammar_production.indexOf(this.table.predict_table[i][j])
+            obj[this.predict_table_header[j]] = this.table.grammar_production.indexOf(this.table.predict_table[i][j-1])
           }
         }
         res.push(obj)
