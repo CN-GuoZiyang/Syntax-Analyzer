@@ -51,7 +51,9 @@ function analyze(str) {
           'raw': str.substring(start, index),
           'type': 'STRING',
           'lineNumber': lineNumber,
-          'attribute': str.substring(start, index)
+          'attribute': str.substring(start, index),
+          'startc': startc,
+          "endc": column
         })
       } else if(str.charAt(index) == '\n') {
         index ++
@@ -85,7 +87,9 @@ function analyze(str) {
           'raw': str.substring(start, index+2),
           'type': 'CHARACTER',
           'lineNumber': lineNumber,
-          'attribute': str.substring(start, index+2)
+          'attribute': str.substring(start, index+2),
+          'startc': startc,
+          'endc': column+2
         })
         index += 2
         column += 2
@@ -94,7 +98,9 @@ function analyze(str) {
           'raw': str.substring(start, index+3),
           'type': 'CHARACTER',
           'lineNumber': lineNumber,
-          'attribute': str.substring(start, index+3)
+          'attribute': str.substring(start, index+3),
+          'startc': startc,
+          'endc': column+3
         })
         index += 3
         column += 3
@@ -174,6 +180,7 @@ function analyze(str) {
       continue
     }
     if (utils.isLetter_(char) == true) {
+      let startc = column
       let res = dfa.judgeId(str, index, column)
       if (res.status == 'ok') {
         if (keywords.indexOf(res.raw) != -1) {
@@ -181,14 +188,18 @@ function analyze(str) {
             'raw': res.raw,
             'type': res.raw.toUpperCase(),
             'lineNumber': lineNumber,
-            'attribute': '-'
+            'attribute': '-',
+            'startc': startc,
+            'endc': res.nextstartc
           })
         } else {
           analysis.push({
             'raw': res.raw,
             'type': 'ID',
             'lineNumber': lineNumber,
-            'attribute': res.raw
+            'attribute': res.raw,
+            'startc': startc,
+            'endc': res.nextstartc
           })
         }
       } else {
@@ -205,6 +216,7 @@ function analyze(str) {
       continue
     }
     if (utils.isNum(char) == true) {
+      let startc = column
       if(char == '0' && utils.isNum(str.charAt(index + 1))) {
         
         // 八进制
@@ -214,7 +226,9 @@ function analyze(str) {
             'raw': res.raw,
             'type': 'OCT',
             'lineNumber': lineNumber,
-            'attribute': res.raw
+            'attribute': res.raw,
+            'startc': startc,
+            'endc': res.nextstartc
           })
         } else {
           errors.push({
@@ -222,6 +236,8 @@ function analyze(str) {
             'lineNumber': lineNumber,
             'info': '格式错误的 八进制数: ' + res.raw,
             'startc': res.startc,
+            'endc': res.nextstartc,
+            'startc': startc,
             'endc': res.nextstartc
           })
         }
@@ -237,7 +253,9 @@ function analyze(str) {
             'raw': res.raw,
             'type': 'HEX',
             'lineNumber': lineNumber,
-            'attribute': res.raw
+            'attribute': res.raw,
+            'startc': startc,
+            'endc': res.nextstartc
           })
         } else {
           errors.push({
@@ -245,6 +263,8 @@ function analyze(str) {
             'lineNumber': lineNumber,
             'info': '格式错误的 十六进制数: ' + res.raw,
             'startc': res.startc,
+            'endc': res.nextstartc,
+            'startc': startc,
             'endc': res.nextstartc
           })
         }
@@ -261,7 +281,9 @@ function analyze(str) {
             'raw': res.raw,
             'type': 'DECIMAL',
             'lineNumber': lineNumber,
-            'attribute': res.raw
+            'attribute': res.raw,
+            'startc': startc,
+            'endc': res.nextstartc
           })
         } else {
           errors.push({
@@ -278,6 +300,7 @@ function analyze(str) {
       }
     }
     if (symbol_start.indexOf(char) != -1) {
+      let startc = column
       let res = dfa.judgeSymbol(str, index, column)
       if (res.status == 'ok') {
         if(res.raw == '(') {
@@ -336,7 +359,9 @@ function analyze(str) {
           'raw': res.raw,
           'type': res.type,
           'lineNumber': lineNumber,
-          'attribute': '-'
+          'attribute': '-',
+          'startc': startc,
+          'endc': res.nextstartc
         })
       } else {
         errors.push({
