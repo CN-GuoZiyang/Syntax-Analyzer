@@ -56,7 +56,7 @@ let neww
 
 ipcMain.on('show_ll1', (event) => {
     neww = new BrowserWindow({
-    width: 900,
+    width: 1080,
     height: 600,
     frame: false,
     webPreferences: {

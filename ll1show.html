@@ -15,18 +15,35 @@
     <el-main style="padding: 0;">
       <el-tabs type="border-card">
         <el-tab-pane label="产生式">
-          <el-table :data="grammar_production" style="width: 100%;" :show-header=false border>
-            <el-table-column prop="left" width="180">
+          <el-table :data="grammar_production" style="width: 100%;" :show-header=false border max-height="520">
+            <el-table-column prop="id" label="id" width="55" fixed></el-table-column>
+            <el-table-column prop="left" width="220" align="right">
             </el-table-column>
-            <el-table-column prop="to" width="180">
+            <el-table-column prop="to" width="80" align="center">
             </el-table-column>
             <el-table-column prop="right">
             </el-table-column>
           </el-table>
         </el-tab-pane>
-        <el-tab-pane label="First集 & Follow集">配置管理</el-tab-pane>
-        <el-tab-pane label="Select集">角色管理</el-tab-pane>
-        <el-tab-pane label="预测分析表">定时任务补偿</el-tab-pane>
+        <el-tab-pane label="First集 & Follow集">
+          <el-table :data="first_follow" style="width: 100%;" border max-height="520">
+            <el-table-column prop="left" width="150" label="非终结符" fixed></el-table-column>
+            <el-table-column prop="first" width="500" label="First集"></el-table-column>
+            <el-table-column prop="follow" label="Follow集"></el-table-column>
+          </el-table>
+        </el-tab-pane>
+        <el-tab-pane label="Select集">
+          <el-table :data="selects" style="width: 100%;" border max-height="520">
+            <el-table-column prop="id" label="id" width="55" fixed></el-table-column>
+            <el-table-column prop="production" width="470" label="产生式"></el-table-column>
+            <el-table-column prop="select" label="Select集"></el-table-column>
+          </el-table>
+        </el-tab-pane>
+        <el-tab-pane label="预测分析表">
+          <el-table :data="predict_table" style="width: 100%;" border max-height="520">
+            <el-table-column v-for="(item, i) in predict_table_header" :prop="item" :label="item" :key="i" :fixed="i==0"></el-table-column>
+          </el-table>
+        </el-tab-pane>
       </el-tabs>
     </el-main>
   </el-container>
