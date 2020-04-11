@@ -12,7 +12,9 @@ struct abc {
 
 int main() {
 	int d = 0;
+	struct abc d;
 	array[0] = 'a';
+	d.a = 10;
 	for(a = 0; a < 10; a ++) {
 		printf(a);
 	}
@@ -42,6 +44,8 @@ struct abcd {
 };
 
 void test1(int a) {
+	struct abcd t;
+	t.b = '\n';
 	printf(a);
 	return;
 }

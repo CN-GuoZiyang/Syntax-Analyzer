@@ -7,7 +7,7 @@ let keywords = ['char', 'double', 'enum', 'float', 'int', 'long', 'short', 'sign
   'const', 'sizeof', 'typedef', 'volatile'
 ]
 let emptychars = ['\t', ' ', '\r', '\v', '\f']
-let symbol_start = ['+', '-', '*', '/', '%', '<', '>', '=', '!', '&', '|', '[', ']', '(', ')', '{', '}', ';', ',']
+let symbol_start = ['+', '-', '*', '/', '%', '<', '>', '=', '!', '&', '|', '[', ']', '(', ')', '{', '}', ';', ':', ',', '.']
 
 function init() {
   dfa.init()

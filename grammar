@@ -30,6 +30,7 @@ block -> { define_stmts stmts }
 define_stmts -> define_stmt define_stmts
 define_stmts -> ε
 define_stmt -> type ID init vars ;
+define_stmt -> STRUCT ID ID ;
 init -> = expression
 init -> array_part
 init -> ε
@@ -55,7 +56,7 @@ result -> ELSE after_else
 result -> ε
 after_else -> block
 after_else -> if_stmt
-switch_stmt -> SWITCH ( ID ) { case_stmt case_stmts default_stmt }
+switch_stmt -> SWITCH ( value ) { case_stmt case_stmts default_stmt }
 case_stmts -> case_stmt case_stmts
 case_stmts -> ε
 case_stmt -> CASE const : stmts
@@ -96,6 +97,7 @@ factor -> ID factor'
 factor -> const
 factor' -> array_part
 factor' -> call_func
+factor' -> DOT ID
 factor' -> ε
 call_func -> ( es )
 es -> expression eps
