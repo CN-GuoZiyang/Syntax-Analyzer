@@ -5,6 +5,7 @@ const app = new Vue({
   data: function() {
     return {
       table: {},
+      show_x: false
     }
   },
   methods: {

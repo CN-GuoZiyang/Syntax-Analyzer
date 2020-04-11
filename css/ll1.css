@@ -23,17 +23,6 @@
 
 #close-logo {
   z-index: 999;
-  color: red;
-  font-size: x-small;
-  font-weight: bolder;
-  position: absolute;
-  right: 18px;
-  top: 13px;
-  -webkit-user-select: none;
-}
-
-#close-logo:hover {
-  z-index: 999;
   color: black;
   font-size: x-small;
   font-weight: bolder;
