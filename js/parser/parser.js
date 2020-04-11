@@ -297,18 +297,24 @@ function parse(token) {
   stack.push(start_ele)
   token.push({
     raw: '$',
-    type: '$'
+    type: '$',
+    lineNumber: token[token.length-1].lineNumber
   })
   let current_index = 0
   let errors = []
+  let id = 0
   while(stack.length != 0 && current_index < token.length) {
+    id ++
     let top = stack[stack.length-1]
     let s = token[current_index]
+    let lineNumber = s.lineNumber
     console.log('\n\n栈：')
     console.log(stack.slice(0))
     console.log('当前符号：')
     console.log(s)
     if(top.label == 'ε') {
+      top.lineNumber = lineNumber
+      top.id = id
       stack.pop()
       continue
     }
@@ -316,6 +322,8 @@ function parse(token) {
     if(typeof(table.nonterminals[top.label]) == 'undefined') {
       if(top.label == s.type) {
         top.label = top.label + ' : ' + s.raw
+        top.lineNumber = lineNumber
+        top.id = id
         stack.pop()
         current_index ++
       } else {
@@ -327,6 +335,8 @@ function parse(token) {
           startc: s.startc-1,
           endc: s.startc
         })
+        top.lineNumber = lineNumber
+        top.id = id
         stack.pop()
         continue
       }
@@ -342,6 +352,8 @@ function parse(token) {
           startc: s.startc,
           endc: s.endc
         })
+        top.lineNumber = lineNumber
+        top.id = id
         current_index ++
         continue
       } else if(production == 'synch') {
@@ -352,12 +364,16 @@ function parse(token) {
           startc: s.startc-1,
           endc: s.startc
         })
+        top.lineNumber = lineNumber
+        top.id = id
         stack.pop()
         continue
       }
       let right = production.right.split(' ')
       console.log('使用产生式：')
       console.log(production)
+      top.lineNumber = lineNumber
+      top.id = id
       stack.pop()
       for(let i = right.length-1; i >= 0; i --) {
         let one = {

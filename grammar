@@ -11,6 +11,7 @@ type -> LONG
 type -> FLOAT
 type -> DOUBLE
 type -> VOID
+type -> CHAR
 type -> UNSIGNED type
 args -> type ID arg
 args -> ε
