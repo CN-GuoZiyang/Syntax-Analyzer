@@ -4,6 +4,12 @@ char array[12];
 int test();
 void test1(int a);
 
+struct abc {
+	int a;
+	char b;
+	long c;
+};
+
 int main() {
 	int d = 0;
 	array[0] = 'a';
@@ -28,6 +34,12 @@ int test() {
 	printf(b);
 	return c;
 }
+
+struct abc {
+	int a;
+	char b;
+	long c;
+};
 
 void test1(int a) {
 	printf(a);

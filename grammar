@@ -3,6 +3,13 @@ P' -> common commons
 commons -> common commons
 commons -> ε
 common -> type ID after_part
+common -> STRUCT ID struct_body ;
+struct_body -> { struct_define struct_defines }
+struct_defines -> struct_define struct_defines
+struct_defines -> ε
+struct_define -> type ID array_part ;
+array_part -> [ const ]
+array_part -> ε
 after_part -> ( args ) func_body
 after_part -> init vars ;
 type -> INT
@@ -24,7 +31,7 @@ define_stmts -> define_stmt define_stmts
 define_stmts -> ε
 define_stmt -> type ID init vars ;
 init -> = expression
-init -> [ const ]
+init -> array_part
 init -> ε
 vars -> , ID init vars
 vars -> ε
@@ -87,7 +94,7 @@ item' -> ε
 factor -> ( value )
 factor -> ID factor'
 factor -> const
-factor' -> [ const ]
+factor' -> array_part
 factor' -> call_func
 factor' -> ε
 call_func -> ( es )
