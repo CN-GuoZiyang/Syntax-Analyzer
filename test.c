@@ -35,10 +35,10 @@ int test() {
 	return c;
 }
 
-struct abc {
+struct abcd {
 	int a;
 	char b;
-	long c;
+	long c[12];
 };
 
 void test1(int a) {
