@@ -22,20 +22,24 @@ const app = new Vue({
   methods: {
     load_from_file() {
       ipc.send('select-file-dialog')
+      document.getElementById('read-btn').blur()
     },
 
     show_ll1() {
       ipc.send('show_ll1')
+      document.getElementById('show-btn').blur()
     },
 
     clear_editor() {
       editor.setValue('')
       this.errors = []
       this.parser_tree = []
+      document.getElementById('empty-btn').blur()
     },
 
     analyze() {
       this.loading = true
+      document.getElementById('run-btn').blur()
       let str = editor.getValue()
       let lexer_res = lexer.analyze(str)
       let res = parser.parse(lexer_res.analysis)
