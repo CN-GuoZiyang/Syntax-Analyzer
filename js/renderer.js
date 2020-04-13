@@ -37,6 +37,14 @@ const app = new Vue({
       document.getElementById('empty-btn').blur()
     },
 
+    show_tree() {
+      if(typeof(this.parser_tree[0]) == 'undefined') {
+        alert('请首先分析！')
+      } else {
+        ipc.send('parser-tree', this.parser_tree[0])
+      }
+    },
+
     analyze() {
       this.loading = true
       document.getElementById('run-btn').blur()

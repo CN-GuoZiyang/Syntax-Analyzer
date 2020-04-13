@@ -40,20 +40,23 @@ body {
 }
 
 #read-btn {
-  margin-left: 25px;
+  margin-left: 15px;
 }
 
 #show-btn {
-  margin-left: 35px;
+  margin-left: 2px;
 }
 
 #empty-btn {
-  margin-left: 35px;
+  margin-left: 2px;
 }
 
 #run-btn {
-  float: right;
-  margin-right: 15px;
+  margin-left: 2px;
+}
+
+#tree-btn {
+  margin-left: 2px;
 }
 
 .el-table__header tr,
