@@ -29,6 +29,7 @@ function split_grammar_str(str) {
       res[splits[0]] = []
     }
     res[splits[0]].push(splits[1]
+      .replace('\r', '')
       .replace(/&&/g, 'AND')
       .replace(/\|\|/g, 'OR')
       .replace(/>=/g, 'GREATER_E').replace(/<=/g, 'LESS_E').replace(/==/g, 'EQUAL').replace(/!=/g, "NOT_E")
