@@ -9,7 +9,7 @@ let grammar_production = []
 let table = {}
 
 function init() {
-  let grammar_str = fs.readFileSync(utils.resolveStatic('../grammar'), 'utf-8').replace('\r', '')
+  let grammar_str = fs.readFileSync(utils.resolveStatic('../grammar'), 'utf-8').replace(/\r/g, '')
   let raw = split_grammar_str(grammar_str)
   compute_first(raw)
   compute_follow(raw)
@@ -29,7 +29,6 @@ function split_grammar_str(str) {
       res[splits[0]] = []
     }
     res[splits[0]].push(splits[1]
-      .replace('\r', '')
       .replace(/&&/g, 'AND')
       .replace(/\|\|/g, 'OR')
       .replace(/>=/g, 'GREATER_E').replace(/<=/g, 'LESS_E').replace(/==/g, 'EQUAL').replace(/!=/g, "NOT_E")
