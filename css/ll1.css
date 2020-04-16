@@ -1,33 +1,3 @@
 [v-cloak] {
   display: none;
 }
-
-.el-tabs__header {
-  -webkit-app-region: drag
-}
-
-.el-tabs__item {
-  -webkit-app-region: no-drag;
-}
-
-#close-btn {
-  z-index: 998;
-  width: 15px;
-  height: 15px;
-  border-radius: 7px;
-  background-color: red;
-  position: absolute;
-  right: 14px;
-  top: 12px;
-}
-
-#close-logo {
-  z-index: 999;
-  color: black;
-  font-size: x-small;
-  font-weight: bolder;
-  position: absolute;
-  right: 18px;
-  top: 13px;
-  -webkit-user-select: none;
-}

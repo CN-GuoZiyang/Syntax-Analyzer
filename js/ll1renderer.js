@@ -5,13 +5,10 @@ const app = new Vue({
   data: function() {
     return {
       table: {},
-      show_x: false
     }
   },
   methods: {
-    close_win() {
-      ipc.send('close_ll1')
-    }
+    
   },
   computed: {
     grammar_production() {

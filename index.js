@@ -52,13 +52,12 @@ let table
 ipcMain.on('table', (event, arg) => {
   table = arg
 })
-let neww
 
 ipcMain.on('show_ll1', (event) => {
-  neww = new BrowserWindow({
+  let neww = new BrowserWindow({
     width: 1080,
     height: 600,
-    frame: false,
+    frame: true,
     resizable: false,
     webPreferences: {
       nodeIntegration: true
@@ -67,10 +66,6 @@ ipcMain.on('show_ll1', (event) => {
   neww.loadFile('ll1show.html')
   neww.on('closed', () => { neww = null })
   // neww.webContents.openDevTools()
-})
-
-ipcMain.on('close_ll1', (event) => {
-  neww.close()
 })
 
 ipcMain.on('get_table', (event) => {
