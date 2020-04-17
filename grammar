@@ -43,7 +43,6 @@ stmt -> jump_stmt
 stmt -> iteration_stmt
 stmt -> if_stmt
 stmt -> switch_stmt
-stmt -> void_call_stmt
 assign_stmt -> expression ;
 jump_stmt -> CONTINUE ;
 jump_stmt -> BREAK ;
