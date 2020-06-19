@@ -1,4 +1,4 @@
-# Parser
+# Syntax Analyzer
 
 ![node-current](https://img.shields.io/node/v/electron)
 [![GitHub license](https://img.shields.io/github/license/CN-GuoZiyang/Syntax-Analyzer)](https://github.com/CN-GuoZiyang/Syntax-Analyzer/blob/master/LICENSE)
